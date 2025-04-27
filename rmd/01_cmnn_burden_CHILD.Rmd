@@ -26,9 +26,15 @@ data_cmnn_wide <- "WRITE_YOUR_CODE_HERE"
 
 ```{r}
 # Here, plot a line graph showing the trend of DALY burden for the chosen countries over time. You can use ggplot2 to create this plot. Each country's line should be a different color.
-# NOTE: Use your long 'mini' data frame for plotting, not the wide data used for the table. 
+# NOTE: Use your long 'mini' data frame for plotting, not the wide data used for the table.
 ```
 
 ## Summary of CMNN Burden Findings
 
 Provide a brief analysis based on the data presented in the table and chart. Highlight any significant findings or patterns. About 3 sentences.
+
+## Attribution
+
+This section was completed by [WRITE YOUR NAME HERE!]
+
+The link to the group's GitHub repository is [WRITE THE LINK HERE!]
