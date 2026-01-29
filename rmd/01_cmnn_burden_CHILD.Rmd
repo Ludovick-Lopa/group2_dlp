@@ -10,7 +10,18 @@ data_cmnn <- read_csv(here("data/burden-of-disease-cmnn.csv"))
 
 ```{r}
 # Filter the dataset to include only the three countries chosen by your group.
-data_cmnn_mini <- "WRITE_YOUR_CODE_HERE"
+
+# we will be working with Tanzania, Kenya, Singapore
+
+data_cmnn_mini <-
+  data_cmnn %>% 
+  filter(Entity%in% c("Tanzania", 
+                     "Kenya", 
+                     "Singapore")) %>% 
+  rename(DALYS = `DALYs (Disability-Adjusted Life Years) - Communicable, maternal, neonatal, and nutritional diseases - Sex: Both - Age: Age-standardized (Rate)`,
+         Country = Entity)
+  
+
 ```
 
 ## Table of Estimates for CMNN Burden Over Time
@@ -18,8 +29,17 @@ data_cmnn_mini <- "WRITE_YOUR_CODE_HERE"
 ```{r}
 # Here render a table for the DALY burden over time for the three countries.
 # You should pivot the data wider to show each country in a separate column.
-data_cmnn_wide <- "WRITE_YOUR_CODE_HERE"
 # Use kable() from the knitr package to render the table.
+
+data_cmnn_wide <- 
+  data_cmnn_mini %>%
+  select(Entity, Year, DALYS ) %>% 
+  pivot_wider(names_from = Entity,
+              values_from = DALYS) %>% 
+  kable()
+
+data_cmnn_wide
+
 ```
 
 ## Plot Showing Trends in CMNN Burden Over Time
@@ -27,14 +47,31 @@ data_cmnn_wide <- "WRITE_YOUR_CODE_HERE"
 ```{r}
 # Here, plot a line graph showing the trend of DALY burden for the chosen countries over time. You can use ggplot2 to create this plot. Each country's line should be a different color.
 # NOTE: Use your long 'mini' data frame for plotting, not the wide data used for the table.
+
+cmnn_trend <- 
+  data_cmnn_mini %>% 
+  ggplot(mapping = aes(x = Year,
+                       y = DALYS,
+                       color = Country)) +
+  geom_line() +
+  labs (
+    x = "Years",
+    y = "DALYs lost",
+    title = "Plot Showing Trends in CMNN Burden Over Time"
+  )
+  
+
+cmnn_trend
+
 ```
 
 ## Summary of CMNN Burden Findings
 
-Provide a brief analysis based on the data presented in the table and chart. Highlight any significant findings or patterns. About 3 sentences.
+Tanzania and Kenya had higher DALYs in early 1990s to 2000s due to HIV epidemic unlike Singapore which seems to have stable DALYs over the past 30 years.  
 
 ## Attribution
 
-This section was completed by [WRITE YOUR NAME HERE!]
+This section was completed by Ludovick L. Lopa
 
-The link to the group's GitHub repository is [WRITE THE LINK HERE!]
+The link to the group's GitHub repository is https://github.com/Ludovick-Lopa/group2_dlp
+
