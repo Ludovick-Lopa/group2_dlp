@@ -33,8 +33,8 @@ data_cmnn_mini <-
 
 data_cmnn_wide <- 
   data_cmnn_mini %>%
-  select(Entity, Year, DALYS ) %>% 
-  pivot_wider(names_from = Entity,
+  select(Country, Year, DALYS ) %>% 
+  pivot_wider(names_from = Country,
               values_from = DALYS) %>% 
   kable()
 

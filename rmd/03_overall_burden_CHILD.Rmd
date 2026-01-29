@@ -10,7 +10,8 @@ data_overall <- read_csv(here("data/burden-of-disease-all-causes.csv"))
 
 ```{r}
 # Filter the dataset to include only the three countries chosen by your group.
-data_overall_mini <- data_overall %>% filter(Entity == c("Tanzania", "Kenya", "Singapore"))
+data_overall_mini <- data_overall %>% filter(Entity %in% c("Tanzania", "Kenya", "Singapore")) %>% 
+  rename(DALYS = `DALYs (Disability-Adjusted Life Years) - All causes - Sex: Both - Age: Age-standardized (Rate)`)
 ```
 
 ## Table of Estimates for Overall Disease Burden Over Time
@@ -20,8 +21,8 @@ data_overall_mini <- data_overall %>% filter(Entity == c("Tanzania", "Kenya", "S
 # You should pivot the data wider to show each country in a separate column.
 
 
-data_overall_wide <- data_overall %>%
-  rename(DALYS = `DALYs (Disability-Adjusted Life Years) - All causes - Sex: Both - Age: Age-standardized (Rate)`) %>% 
+data_overall_wide <- data_overall_mini%>%
+  
   select(Entity, Year, DALYS ) %>% 
   pivot_wider(names_from = Entity,
               values_from = DALYS) %>% 
