@@ -93,9 +93,8 @@ ggplot(data_ncd_cum,
   theme_minimal()
 ```
 
-
 ## Attribution
 
-This section was completed by [Pema Wangchuk!]
+This section was completed by Pema Wangchuk.
 
-The link to the group's GitHub repository is [https://github.com/Ludovick-Lopa/group2_dlp!]
+The link to the group's GitHub repository is <https://github.com/Ludovick-Lopa/group2_dlp>
