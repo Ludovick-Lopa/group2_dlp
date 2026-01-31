@@ -10,7 +10,12 @@ data_ncd <- read_csv(here("data/burden-of-disease-ncd.csv"))
 
 ```{r}
 # Filter the dataset to include only the three countries chosen by your group.
-data_ncd_mini <- "WRITE_YOUR_CODE_HERE"
+data_ncd_mini <- data_ncd %>% 
+  filter(Entity %in% c("Tanzania", "Kenya", "Singapore"))
+
+#renaming/shortening the long DALY name
+data_ncd_mini <- data_ncd_mini %>% 
+  rename(DALYs = `DALYs (Disability-Adjusted Life Years) - Non-communicable diseases - Sex: Both - Age: Age-standardized (Rate)`)
 ```
 
 ## Table of Estimates for NCD Burden Over Time
@@ -18,7 +23,18 @@ data_ncd_mini <- "WRITE_YOUR_CODE_HERE"
 ```{r}
 # Here render a table for the DALY burden over time for the three countries.
 # You should pivot the data wider to show each country in a separate column.
-data_ncd_wide <- "WRITE_YOUR_CODE_HERE"
+data_ncd_wide <- data_ncd_mini %>%
+  select(Year, Entity, DALYs) %>%
+  pivot_wider(
+    names_from  = Entity,
+    values_from = DALYs)
+
+# Table
+knitr::kable(
+  data_ncd_wide,
+  caption = "DALY burden over time for Tanzania, Kenya, and Singapore",
+  digits = 0
+)
 # Use kable() from the knitr package to render the table.
 ```
 
@@ -26,15 +42,60 @@ data_ncd_wide <- "WRITE_YOUR_CODE_HERE"
 
 ```{r}
 # Here, plot a line graph showing the trend of DALY burden for the chosen countries over time. You can use ggplot2 to create this plot. Each country's line should be a different color.
+
+ggplot2::ggplot(data = data_ncd_mini, 
+                mapping = aes(x = Year,
+                              y = DALYs,
+                              color = Entity,
+                              group = Entity )) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Trends in DALY burden from Non-Communicable Diseases",
+    subtitle = "Tanzania, Kenya, and Singapore",
+    caption = "Source: GBD Data",
+    x = "Year",
+    y = "DALYs (age-standardized rate)",
+    color = "Country"
+  ) +
+  theme_minimal()
+
 # NOTE: Use your long 'mini' data frame for plotting, not the wide data used for the table.
 ```
 
 ## Summary of NCD Burden Findings
 
-Provide a brief analysis based on the data presented in the table and chart. Highlight any significant findings or patterns. About 3 sentences.
+Although the DALY burden from non-communicable diseases (NCDs) in the three countries show decreasing trend between 1990 and 2020, the burden in Tanzania and Kenya remain significantly higher than in Singapore across the study period. In Singapore, the NCD burden in recent years have decreased significantly, and in a sustained way.
+
+## Optional: Cumulative DALY burden over time
+
+```{r}
+data_ncd_cum <- data_ncd_mini %>%
+  arrange(Entity, Year) %>%
+  group_by(Entity) %>%
+  mutate(cum_DALYs = cumsum(DALYs)) %>%
+  ungroup()
+
+# plot
+ggplot(data_ncd_cum, 
+       aes(x = Year, 
+           y = cum_DALYs, 
+           color = Entity, 
+           group = Entity)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  labs(
+    title = "Cumulative DALY burden in Tanzania, Kenya and Singapore over time",
+    x = "Year",
+    y = "Cumulative DALYs",
+    color = "Country"
+  ) +
+  theme_minimal()
+```
+
 
 ## Attribution
 
-This section was completed by [WRITE YOUR NAME HERE!]
+This section was completed by [Pema Wangchuk!]
 
-The link to the group's GitHub repository is [WRITE THE LINK HERE!]
+The link to the group's GitHub repository is [https://github.com/Ludovick-Lopa/group2_dlp!]
